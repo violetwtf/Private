@@ -57,4 +57,7 @@ public class GuildSettingsServiceImpl implements GuildSettingsService {
     return expires;
   }
 
+  public Map<Long, GuildSettings> getCache() {
+    return settingsCache;
+  }
 }

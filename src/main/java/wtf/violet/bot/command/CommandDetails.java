@@ -8,7 +8,9 @@ public class CommandDetails {
   private ArgumentType[] argumentTypes;
   private boolean adminOnly = false;
   private boolean argumentCommand = false;
+  private boolean sendLabel = false;
   private String usage;
+  private String description = "Uh oh! This command has no description.";
 
   public CommandDetails(String label) {
     this.labels = new String[]{label};
@@ -50,6 +52,15 @@ public class CommandDetails {
     return this;
   }
 
+  public CommandDetails setDescription(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
   public boolean isArgumentCommand() {
     return argumentCommand;
   }
@@ -61,4 +72,14 @@ public class CommandDetails {
       return prefix + label + " " + usage;
     }
   }
+
+  public CommandDetails setSendLabel(boolean sendLabel) {
+    this.sendLabel = sendLabel;
+    return this;
+  }
+
+  public boolean isSendLabel() {
+    return sendLabel;
+  }
+
 }

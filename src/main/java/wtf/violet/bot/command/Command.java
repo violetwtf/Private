@@ -21,6 +21,10 @@ public class Command {
     execute(event);
   }
 
+  public void execute(MessageReceivedEvent event, String label, String prefix) {
+    execute(event);
+  }
+
   public CommandDetails getDetails() {
     return details;
   }

@@ -10,10 +10,6 @@ import java.util.Date;
 
 public class PingCommand extends Command {
 
-  public String[] getLabels() {
-    return new String[]{"ping"};
-  }
-
   @Override
   public void execute(MessageReceivedEvent event) {
     long before = getTime();
@@ -37,7 +33,8 @@ public class PingCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {
-    return new CommandDetails("ping");
+    return new CommandDetails("ping")
+        .setDescription("Calculate the ping of the bot to its services.");
   }
 
   private long getTime() {

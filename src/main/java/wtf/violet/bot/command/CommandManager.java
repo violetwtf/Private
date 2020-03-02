@@ -1,5 +1,6 @@
 package wtf.violet.bot.command;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,10 @@ public class CommandManager {
 
   public Command getCommandByLabel(String label) {
     return commandsByLabel.get(label);
+  }
+
+  public Collection<Command> getAllCommands() {
+    return commandsByLabel.values();
   }
 
 }

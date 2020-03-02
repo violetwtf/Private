@@ -30,3 +30,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# not doing that again
+src/main/resources/application.properties

@@ -11,7 +11,7 @@ import wtf.violet.bot.command.ArgumentWrapper;
 import wtf.violet.bot.command.Command;
 import wtf.violet.bot.command.CommandDetails;
 import wtf.violet.bot.model.Admin;
-import wtf.violet.bot.repository.AdminRepository;
+import wtf.violet.bot.service.admin.AdminService;
 import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.ArrayList;
@@ -26,14 +26,14 @@ public class MessageListener extends ListenerAdapter {
     Bot instance = Bot.getInstance();
     String content = event.getMessage().getContentStripped();
     long authorId = author.getIdLong();
-    AdminRepository adminRepository = instance.getAdminRepository();
+    AdminService adminService = instance.getAdminService();
 
     // Admin code
     if (!event.isFromGuild()) {
       if (instance.isAdminCodeClaimable() && content.equals(instance.getAdminCode().toString())) {
         Admin admin = new Admin();
         admin.setDiscordId(authorId);
-        adminRepository.save(admin);
+        adminService.save(admin);
         instance.setAdminCodeClaimable(false);
       }
       return;
@@ -64,9 +64,7 @@ public class MessageListener extends ListenerAdapter {
         TextChannel channel = event.getTextChannel();
 
         if (details.isAdminOnly()) {
-          // TODO: Cache this
-          Admin admin = adminRepository.findOneByDiscordId(authorId);
-          if (admin == null) {
+          if (!adminService.isAdmin(author)) {
             channel.sendMessage(
                 EmbedUtil
                     .getBasicEmbed(event)
@@ -90,6 +88,7 @@ public class MessageListener extends ListenerAdapter {
                     )
                     .build()
             ).queue();
+            return;
           }
 
           for (ArgumentType type : details.getArgumentTypes()) {
@@ -104,6 +103,8 @@ public class MessageListener extends ListenerAdapter {
             }
           }
           command.execute(event, args);
+        } else if (details.isSendLabel()) {
+          command.execute(event, commandLabel, prefix);
         } else {
           command.execute(event);
         }

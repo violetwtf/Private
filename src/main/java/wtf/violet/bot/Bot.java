@@ -9,11 +9,13 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import wtf.violet.bot.command.CommandManager;
+import wtf.violet.bot.command.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
 import wtf.violet.bot.command.ping.PingCommand;
 import wtf.violet.bot.listener.MessageListener;
 import wtf.violet.bot.model.Admin;
 import wtf.violet.bot.repository.AdminRepository;
+import wtf.violet.bot.service.admin.AdminService;
 import wtf.violet.bot.service.guildsettings.GuildSettingsServiceImpl;
 
 import javax.security.auth.login.LoginException;
@@ -30,7 +32,7 @@ public class Bot implements BotService {
   @Autowired
   private GuildSettingsServiceImpl guildSettingsService;
   @Autowired
-  private AdminRepository adminRepository;
+  private AdminService adminService;
 
   private UUID adminCode;
   private boolean adminCodeClaimable = false;
@@ -42,6 +44,7 @@ public class Bot implements BotService {
 
     CommandManager.register(new PingCommand());
     CommandManager.register(new EvalCommand());
+    CommandManager.register(new HelpCommand());
 
     new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))
@@ -54,7 +57,7 @@ public class Bot implements BotService {
 
   @EventListener(ApplicationReadyEvent.class)
   public void onReady() {
-    List<Admin> admin = adminRepository.findAll();
+    List<Admin> admin = adminService.findAll();
     if (admin.size() == 0) {
       // I know it's not super secure but it's only run once ever
       adminCode = UUID.randomUUID();
@@ -75,8 +78,8 @@ public class Bot implements BotService {
     return commandManager;
   }
 
-  public AdminRepository getAdminRepository() {
-    return adminRepository;
+  public AdminService getAdminService() {
+    return adminService;
   }
 
   public UUID getAdminCode() {
