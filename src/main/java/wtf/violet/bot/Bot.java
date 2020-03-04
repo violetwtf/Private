@@ -13,6 +13,7 @@ import wtf.violet.bot.command.ban.BanCommand;
 import wtf.violet.bot.command.help.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
 import wtf.violet.bot.command.ping.PingCommand;
+import wtf.violet.bot.command.rebuild.RebuildCommand;
 import wtf.violet.bot.listener.MessageListener;
 import wtf.violet.bot.model.Admin;
 import wtf.violet.bot.service.admin.AdminServiceImpl;
@@ -54,6 +55,7 @@ public class Bot implements BotService {
     CommandManager.register(new EvalCommand());
     CommandManager.register(new HelpCommand());
     CommandManager.register(new BanCommand());
+    CommandManager.register(new RebuildCommand());
 
     new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))
