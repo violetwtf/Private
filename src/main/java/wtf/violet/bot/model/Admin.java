@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
 
+/**
+ * Definition of the Admin entity.
+ * @author Violet M. vi@violet.wtf
+ */
 @Entity
 public class Admin {
 
@@ -23,4 +27,5 @@ public class Admin {
   public UUID getId() {
     return id;
   }
+
 }

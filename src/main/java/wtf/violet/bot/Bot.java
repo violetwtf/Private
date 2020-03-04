@@ -15,7 +15,7 @@ import wtf.violet.bot.command.eval.EvalCommand;
 import wtf.violet.bot.command.ping.PingCommand;
 import wtf.violet.bot.listener.MessageListener;
 import wtf.violet.bot.model.Admin;
-import wtf.violet.bot.service.admin.AdminService;
+import wtf.violet.bot.service.admin.AdminServiceImpl;
 import wtf.violet.bot.service.guildsettings.GuildSettingsServiceImpl;
 
 import javax.security.auth.login.LoginException;
@@ -23,6 +23,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Private: A privacy-respecting military-like Discord bot.
+ * @author Violet M.
+ */
 @Service
 @EnableAdminServer
 public class Bot implements BotService {
@@ -32,13 +36,17 @@ public class Bot implements BotService {
   @Autowired
   private GuildSettingsServiceImpl guildSettingsService;
   @Autowired
-  private AdminService adminService;
+  private AdminServiceImpl adminService;
 
   private UUID adminCode;
   private boolean adminCodeClaimable = false;
 
   private CommandManager commandManager = new CommandManager();
 
+  /**
+   * The Discord bot!
+   * @throws LoginException Discord couldn't login
+   */
   public Bot() throws LoginException {
     instance = this;
 
@@ -56,6 +64,7 @@ public class Bot implements BotService {
         .build();
   }
 
+  /** Called when Spring is ready - sets up admin stuff */
   @EventListener(ApplicationReadyEvent.class)
   public void onReady() {
     List<Admin> admin = adminService.findAll();
@@ -79,7 +88,7 @@ public class Bot implements BotService {
     return commandManager;
   }
 
-  public AdminService getAdminService() {
+  public AdminServiceImpl getAdminService() {
     return adminService;
   }
 

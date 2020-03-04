@@ -1,8 +1,14 @@
 package wtf.violet.bot.command;
 
 import net.dv8tion.jda.api.Permission;
-import org.jolokia.restrictor.policy.MBeanAccessChecker;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+import java.util.List;
+
+/**
+ * Details of a command.
+ * @author Violet M. vi@violet.wtf
+ */
 public class CommandDetails {
 
   private String[] labels;
@@ -14,11 +20,7 @@ public class CommandDetails {
   private String description = "Uh oh! This command has no description.";
   private Permission[] permissions;
 
-  public CommandDetails(String label) {
-    this.labels = new String[]{label};
-  }
-
-  public CommandDetails(String[] labels) {
+  public CommandDetails(String... labels) {
     this.labels = labels;
   }
 
@@ -26,6 +28,7 @@ public class CommandDetails {
     return labels;
   }
 
+  /** If the command can only be used by admins */
   public boolean isAdminOnly() {
     return adminOnly;
   }
@@ -59,6 +62,10 @@ public class CommandDetails {
     return description;
   }
 
+  /** 
+   * Returns true if it should be executed with arguments
+   * @see wtf.violet.bot.command.Command#execute(MessageReceivedEvent, List)  
+   */
   public boolean isArgumentCommand() {
     return argumentCommand;
   }
@@ -76,10 +83,14 @@ public class CommandDetails {
     return this;
   }
 
+  /**
+   * Returns true if command details should be sent.
+   * @see wtf.violet.bot.command.Command#execute(MessageReceivedEvent, String, String) 
+   */
   public boolean isSendLabel() {
     return sendLabel;
   }
-
+  
   public CommandDetails setPermissions(Permission ...permissions) {
     this.permissions = permissions;
     return this;

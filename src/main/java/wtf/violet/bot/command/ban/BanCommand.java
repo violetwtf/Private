@@ -15,6 +15,11 @@ import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.List;
 
+/**
+ * private ban: Bans a user from the server.
+ * @author Violet M. vi@violet.wtf
+ * @see wtf.violet.bot.command.Command
+ */
 public class BanCommand extends Command {
 
   @Override
@@ -72,6 +77,12 @@ public class BanCommand extends Command {
         ).queue();
   }
 
+  /**
+   * Attaches a reason field to an EmbedBuilder and builds it.
+   * @param builder EmbedBuilder
+   * @param reason The ban reason
+   * @return The built MessageEmbed
+   */
   private static MessageEmbed buildWithReason(EmbedBuilder builder, String reason) {
     return builder.addField("Reason", reason, false).build();
   }

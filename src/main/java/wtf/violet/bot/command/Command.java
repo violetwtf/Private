@@ -5,10 +5,16 @@ import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.List;
 
+/**
+ * The definition of a command in private, an executor and details.
+ * @author Violet M. vi@violet.wtf
+ */
 public class Command {
 
-  private CommandDetails details;
-
+  /**
+   * Called to execute the command.
+   * @param event MessageReceivedEvent
+   */
   public void execute(MessageReceivedEvent event) {
     event.getChannel().sendMessage(
         EmbedUtil.getBasicEmbed(event).addField(
@@ -17,15 +23,21 @@ public class Command {
     ).queue();
   }
 
+  /** Alternative definition for passing arguments */
   public void execute(MessageReceivedEvent event, List<ArgumentWrapper> args) {
     execute(event);
   }
 
+  /** Alternative definition for passing command info */
   public void execute(MessageReceivedEvent event, String label, String prefix) {
     execute(event);
   }
 
+  /**
+   * Get this command's CommandDetails.
+   * @return CommandDetails
+   */
   public CommandDetails getDetails() {
-    return details;
+    return new CommandDetails("error").setDescription("An error has occurred.");
   }
 }

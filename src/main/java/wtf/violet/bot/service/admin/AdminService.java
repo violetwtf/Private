@@ -5,6 +5,7 @@ import wtf.violet.bot.model.Admin;
 
 import java.util.List;
 
+/** @see wtf.violet.bot.service.admin.AdminServiceImpl */
 public interface AdminService {
 
   boolean isAdmin(User user);

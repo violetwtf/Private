@@ -8,6 +8,11 @@ import wtf.violet.bot.command.CommandDetails;
 
 import java.util.Date;
 
+/**
+ * private ping: Calculate the ping to private's services
+ * @author Violet M. vi@violet.wtf
+ * @see wtf.violet.bot.command.Command
+ */
 public class PingCommand extends Command {
 
   @Override
@@ -37,12 +42,14 @@ public class PingCommand extends Command {
         .setDescription("Calculate the ping of the bot to its services.");
   }
 
+  /** Shorthand for new Date().getTime() */
   private long getTime() {
     return new Date().getTime();
   }
 
+  /** Calculates the time in millis it's been since before, and adds "ms" */
   private String getPing(long before) {
-    return new Date().getTime() - before + "ms";
+    return getTime() - before + "ms";
   }
 
 }

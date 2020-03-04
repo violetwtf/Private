@@ -5,6 +5,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
 
+/**
+ * Definition of the GuildSettings entity.
+ * @author Violet M. vi@violet.wtf
+ */
 @Entity
 public class GuildSettings {
 

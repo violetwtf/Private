@@ -9,7 +9,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * Definition of the GuildSettings service.
+ * @author Violet M. vi@violet.wtf
+ */
 @Service
 public class GuildSettingsServiceImpl implements GuildSettingsService {
 
@@ -21,6 +24,7 @@ public class GuildSettingsServiceImpl implements GuildSettingsService {
   @Autowired
   private GuildSettingsRepository repository;
 
+  /** Returns a GuildSettings instance by its Discord ID */
   @Override
   public GuildSettings findByDiscordId(long discordId) {
     // Expire cache
@@ -46,10 +50,15 @@ public class GuildSettingsServiceImpl implements GuildSettingsService {
     return settings;
   }
 
+  /**
+   * Returns the underlying GuildSettings repository.
+   * @see wtf.violet.bot.repository.GuildSettingsRepository
+   */
   public GuildSettingsRepository getRepository() {
     return repository;
   }
 
+  /** Returns the time the cache should expire from now. */
   private Date getExpires() {
     Date expires = new Date();
     // Expire every 10 minutes
@@ -57,6 +66,7 @@ public class GuildSettingsServiceImpl implements GuildSettingsService {
     return expires;
   }
 
+  /** Returns the underlying cache for debug purposes. You probably shouldn't touch this */
   public Map<Long, GuildSettings> getCache() {
     return settingsCache;
   }

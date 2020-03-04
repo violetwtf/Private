@@ -9,6 +9,11 @@ import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.Collection;
 
+/**
+ * private help: Gets help on Private commands
+ * @author Violet M. vi@violet.wtf
+ * @see wtf.violet.bot.command.Command
+ */
 public class HelpCommand extends Command {
 
   @Override

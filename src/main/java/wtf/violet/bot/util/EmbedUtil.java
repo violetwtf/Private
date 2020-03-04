@@ -8,8 +8,17 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 
+/**
+ * A helpful util to build embeds.
+ * @author Violet M. vi@violet.wtf
+ */
 public class EmbedUtil {
 
+  /**
+   * Get the basic command embed.
+   * @param event The MessageReceivedEvent from the command
+   * @return The EmbedBuilder you can expand upon
+   */
   public static EmbedBuilder getBasicEmbed(MessageReceivedEvent event) {
     User author = event.getAuthor();
     SelfUser self = event.getJDA().getSelfUser();

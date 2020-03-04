@@ -18,6 +18,10 @@ import wtf.violet.bot.util.UsageUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Listener for messages for Private.
+ * @author Violet M. vi@violet.wtf
+ */
 @Component
 public class MessageListener extends ListenerAdapter {
 

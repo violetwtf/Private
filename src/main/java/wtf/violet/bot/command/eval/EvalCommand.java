@@ -11,6 +11,11 @@ import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.List;
 
+/**
+ * private eval: Evaluates a line of Groovy
+ * @author Violet M. vi@violet.wtf
+ * @see wtf.violet.bot.command.Command
+ */
 public class EvalCommand extends Command {
 
   @Override
@@ -48,16 +53,18 @@ public class EvalCommand extends Command {
     event.getChannel().sendMessage(builder.build()).queue();
   }
 
+  /** Returns the string wrapped in a Discord Java code block */
   private String code(String code) {
     return "```java\n" + code + "\n```";
   }
 
+  /** Returns the string wrapped in "import " and ";" */
   private String getImportString(String[] packages) {
-    String end = "";
+    StringBuilder end = new StringBuilder();
     for (String pack : packages) {
-      end += "import " + pack + ";\n";
+      end.append("import ").append(pack).append(";\n");
     }
-    return end;
+    return end.toString();
   }
 
 }
