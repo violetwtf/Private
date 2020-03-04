@@ -1,8 +1,10 @@
-package wtf.violet.bot.command;
+package wtf.violet.bot.command.help;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import wtf.violet.bot.Bot;
+import wtf.violet.bot.command.Command;
+import wtf.violet.bot.command.CommandDetails;
 import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.Collection;

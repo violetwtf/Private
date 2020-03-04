@@ -1,5 +1,6 @@
 package wtf.violet.bot.command;
 
+import net.dv8tion.jda.api.Permission;
 import org.jolokia.restrictor.policy.MBeanAccessChecker;
 
 public class CommandDetails {
@@ -11,6 +12,7 @@ public class CommandDetails {
   private boolean sendLabel = false;
   private String usage;
   private String description = "Uh oh! This command has no description.";
+  private Permission[] permissions;
 
   public CommandDetails(String label) {
     this.labels = new String[]{label};
@@ -37,14 +39,10 @@ public class CommandDetails {
     return argumentTypes;
   }
 
-  public CommandDetails setArgumentTypes(ArgumentType[] argumentTypes) {
+  public CommandDetails setArgumentTypes(ArgumentType ...argumentTypes) {
     this.argumentCommand = true;
     this.argumentTypes = argumentTypes;
     return this;
-  }
-
-  public CommandDetails setArgumentType(ArgumentType argumentType) {
-    return setArgumentTypes(new ArgumentType[]{argumentType});
   }
 
   public CommandDetails setUsage(String usage) {
@@ -82,4 +80,12 @@ public class CommandDetails {
     return sendLabel;
   }
 
+  public CommandDetails setPermissions(Permission ...permissions) {
+    this.permissions = permissions;
+    return this;
+  }
+
+  public Permission[] getPermissions() {
+    return permissions;
+  }
 }

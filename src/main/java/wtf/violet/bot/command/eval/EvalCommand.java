@@ -18,7 +18,7 @@ public class EvalCommand extends Command {
     return new CommandDetails("eval")
         .setUsage("<code>")
         .setDescription("Evaluate some Java (Groovy) code in the context of the bot.")
-        .setArgumentType(ArgumentType.LONG_TEXT)
+        .setArgumentTypes(ArgumentType.LONG_TEXT)
         .setAdminOnly(true);
   }
 

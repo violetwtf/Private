@@ -9,12 +9,12 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import wtf.violet.bot.command.CommandManager;
-import wtf.violet.bot.command.HelpCommand;
+import wtf.violet.bot.command.ban.BanCommand;
+import wtf.violet.bot.command.help.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
 import wtf.violet.bot.command.ping.PingCommand;
 import wtf.violet.bot.listener.MessageListener;
 import wtf.violet.bot.model.Admin;
-import wtf.violet.bot.repository.AdminRepository;
 import wtf.violet.bot.service.admin.AdminService;
 import wtf.violet.bot.service.guildsettings.GuildSettingsServiceImpl;
 
@@ -45,6 +45,7 @@ public class Bot implements BotService {
     CommandManager.register(new PingCommand());
     CommandManager.register(new EvalCommand());
     CommandManager.register(new HelpCommand());
+    CommandManager.register(new BanCommand());
 
     new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))
@@ -92,6 +93,10 @@ public class Bot implements BotService {
 
   public void setAdminCodeClaimable(boolean adminCodeClaimable) {
     this.adminCodeClaimable = adminCodeClaimable;
+  }
+
+  public String getCrab() {
+    return "\uD83E\uDD80"; // 🦀🦀🦀🦀Fine, I'll give in.
   }
 
 }

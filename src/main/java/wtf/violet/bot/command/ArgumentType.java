@@ -2,6 +2,7 @@ package wtf.violet.bot.command;
 
 public enum ArgumentType {
 
-  LONG_TEXT
+  LONG_TEXT,
+  MEMBER
 
 }
