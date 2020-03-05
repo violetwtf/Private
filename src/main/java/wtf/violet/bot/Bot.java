@@ -69,6 +69,7 @@ public class Bot implements BotService {
         .setToken(System.getenv("DISCORD_TOKEN"))
         // Disable all cache flags
         .setDisabledCacheFlags(EnumSet.allOf(CacheFlag.class))
+        .setEnabledCacheFlags(EnumSet.of(CacheFlag.VOICE_STATE))
         .setActivity(Activity.watching("your privacy rights!"))
         .addEventListeners(new MessageListener(), new JoinListener())
         .build();
@@ -85,10 +86,9 @@ public class Bot implements BotService {
       System.out.println("Send this code to become admin: " + adminCode);
     }
 
-    // Guild whitelist
-    //for (Guild guild : getInstance().getJda().getGuilds()) {
-     // GuildWhitelistUtil.check(guild);
-    //}
+    for (Guild guild : getInstance().getJda().getGuilds()) {
+      GuildWhitelistUtil.check(guild);
+    }
   }
 
   public static Bot getInstance() {
