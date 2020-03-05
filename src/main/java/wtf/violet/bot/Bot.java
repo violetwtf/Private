@@ -1,8 +1,10 @@
 package wtf.violet.bot;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -14,10 +16,13 @@ import wtf.violet.bot.command.help.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
 import wtf.violet.bot.command.ping.PingCommand;
 import wtf.violet.bot.command.rebuild.RebuildCommand;
+import wtf.violet.bot.listener.JoinListener;
 import wtf.violet.bot.listener.MessageListener;
 import wtf.violet.bot.model.Admin;
+import wtf.violet.bot.repository.GuildWhitelistRepository;
 import wtf.violet.bot.service.admin.AdminServiceImpl;
 import wtf.violet.bot.service.guildsettings.GuildSettingsServiceImpl;
+import wtf.violet.bot.util.GuildWhitelistUtil;
 
 import javax.security.auth.login.LoginException;
 import java.util.EnumSet;
@@ -38,11 +43,14 @@ public class Bot implements BotService {
   private GuildSettingsServiceImpl guildSettingsService;
   @Autowired
   private AdminServiceImpl adminService;
+  @Autowired
+  private GuildWhitelistRepository guildWhitelistRepository;
 
   private UUID adminCode;
   private boolean adminCodeClaimable = false;
 
   private CommandManager commandManager = new CommandManager();
+  private JDA jda;
 
   /**
    * The Discord bot!
@@ -57,12 +65,12 @@ public class Bot implements BotService {
     CommandManager.register(new BanCommand());
     CommandManager.register(new RebuildCommand());
 
-    new JDABuilder()
+    jda = new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))
         // Disable all cache flags
         .setDisabledCacheFlags(EnumSet.allOf(CacheFlag.class))
         .setActivity(Activity.watching("your privacy rights!"))
-        .addEventListeners(new MessageListener())
+        .addEventListeners(new MessageListener(), new JoinListener())
         .build();
   }
 
@@ -76,6 +84,11 @@ public class Bot implements BotService {
       adminCodeClaimable = true;
       System.out.println("Send this code to become admin: " + adminCode);
     }
+
+    // Guild whitelist
+    //for (Guild guild : getInstance().getJda().getGuilds()) {
+     // GuildWhitelistUtil.check(guild);
+    //}
   }
 
   public static Bot getInstance() {
@@ -104,6 +117,14 @@ public class Bot implements BotService {
 
   public void setAdminCodeClaimable(boolean adminCodeClaimable) {
     this.adminCodeClaimable = adminCodeClaimable;
+  }
+
+  public GuildWhitelistRepository getGuildWhitelistRepository() {
+    return guildWhitelistRepository;
+  }
+
+  public JDA getJda() {
+    return jda;
   }
 
   public String getCrab() {

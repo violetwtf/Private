@@ -32,7 +32,9 @@ public class EvalCommand extends Command {
     String imports = getImportString(new String[]{
         "wtf.violet.bot.Bot",
         "wtf.violet.bot.repository.*",
-        "wtf.violet.bot.service.guildsettings.*"
+        "wtf.violet.bot.service.guildsettings.*",
+        "wtf.violet.bot.service.admin.*",
+        "wtf.violet.bot.model.*"
     });
 
     String text, name = "Result";

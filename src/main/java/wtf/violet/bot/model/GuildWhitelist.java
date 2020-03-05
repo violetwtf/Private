@@ -5,24 +5,18 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 /**
- * Definition of the GuildSettings entity.
+ * Guild whitelist.
  * @author Violet M. vi@violet.wtf
  */
 @Entity
-public class GuildSettings {
+public class GuildWhitelist {
 
   @Id
   private UUID id = UUID.randomUUID();
-
   private long discordId;
-  private String prefix = "private ";
 
-  public String getPrefix() {
-    return prefix;
-  }
-
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
+  public UUID getId() {
+    return id;
   }
 
   public long getDiscordId() {
