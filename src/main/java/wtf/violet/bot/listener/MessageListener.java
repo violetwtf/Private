@@ -1,5 +1,7 @@
 package wtf.violet.bot.listener;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -14,9 +16,12 @@ import wtf.violet.bot.model.Admin;
 import wtf.violet.bot.service.admin.AdminService;
 import wtf.violet.bot.util.EmbedUtil;
 import wtf.violet.bot.util.UsageUtil;
+import wtf.violet.bot.util.WebhookUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Listener for messages for Private.
@@ -24,6 +29,11 @@ import java.util.List;
  */
 @Component
 public class MessageListener extends ListenerAdapter {
+
+  private static final Pattern MESSAGE_LINK = Pattern.compile(
+      "https://(canary.|ptb.|)discordapp.com/channels/" +
+          "(?<guildId>[0-9]{18})/(?<channelId>[0-9]{18})/(?<messageId>[0-9]{18})"
+  );
 
   @Override
   public void onMessageReceived(MessageReceivedEvent event) {
@@ -50,6 +60,40 @@ public class MessageListener extends ListenerAdapter {
     }
 
     Guild guild = event.getGuild();
+    TextChannel channel = event.getTextChannel();
+
+    Matcher messageLinkMatcher = MESSAGE_LINK.matcher(content);
+
+    if (messageLinkMatcher.matches()) {
+      System.out.println("matched");
+      String guildId = messageLinkMatcher.group("guildId");
+      String channelId = messageLinkMatcher.group("channelId");
+      String messageId = messageLinkMatcher.group("messageId");
+      System.out.println(guildId + channelId + messageId);
+
+      Guild linkedGuild = event.getJDA().getGuildById(guildId);
+
+      if (linkedGuild != null) {
+        TextChannel linkedChannel = linkedGuild.getTextChannelById(channelId);
+        if (linkedChannel != null) {
+          Message linkedMessage = linkedChannel.retrieveMessageById(messageId).complete();
+          if (linkedMessage != null) {
+            User linkedAuthor = linkedMessage.getAuthor();
+
+            WebhookUtil.getChannelWebhookClient(channel)
+                .send(
+                    new WebhookMessageBuilder().setUsername(linkedAuthor.getAsTag())
+                        .setAvatarUrl(linkedAuthor.getAvatarUrl())
+                        .setContent(linkedMessage.getContentRaw())
+                        .build()
+                );
+          }
+        }
+      }
+
+      return;
+    }
+
 
     String prefix =
         instance.getGuildSettingsService().findByDiscordId(guild.getIdLong()).getPrefix();
@@ -65,8 +109,6 @@ public class MessageListener extends ListenerAdapter {
         CommandDetails details = command.getDetails();
 
         List<ArgumentWrapper> args = new ArrayList<>();
-
-        TextChannel channel = event.getTextChannel();
 
         if (details.isAdminOnly()) {
           if (!adminService.isAdmin(author)) {
