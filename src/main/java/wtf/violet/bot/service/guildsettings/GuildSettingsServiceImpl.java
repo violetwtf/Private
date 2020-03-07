@@ -50,6 +50,12 @@ public class GuildSettingsServiceImpl implements GuildSettingsService {
     return settings;
   }
 
+  @Override
+  public void save(GuildSettings settings) {
+    settingsCache.put(settings.getDiscordId(), settings);
+    repository.save(settings);
+  }
+
   /**
    * Returns the underlying GuildSettings repository.
    * @see wtf.violet.bot.repository.GuildSettingsRepository

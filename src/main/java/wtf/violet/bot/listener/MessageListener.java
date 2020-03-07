@@ -78,29 +78,24 @@ public class MessageListener extends ListenerAdapter {
           return;
         }
 
-        boolean badPermissions = false;
-        String whoPermissions = "You";
-
         Member executorMember = event.getMember();
         Permission[] permissions = details.getPermissions();
 
-        if (executorMember != null && permissions != null) {
-          for (Permission permission : permissions) {
-            if (!executorMember.hasPermission(permission)) {
-              badPermissions = true;
-            } else if (!guild.getSelfMember().hasPermission(permission)) {
-              badPermissions = true;
-              whoPermissions = "I";
-            }
+        if (executorMember != null
+            && permissions != null
+            && !executorMember.hasPermission(details.getPermissions())) {
+          return;
+        }
 
-            if (badPermissions) {
+        if (details.getBotPermissions() != null) {
+          for (Permission permission : details.getBotPermissions()) {
+            if (!guild.getSelfMember().hasPermission(permission)) {
               channel
                   .sendMessage(
                       EmbedUtil.getBasicEmbed(event)
                           .addField(
                               "Error",
-                              whoPermissions
-                                  + " need the permission **"
+                              "I need the permission **"
                                   + permission.getName()
                                   + "** to run this command.",
                               false)
@@ -115,7 +110,11 @@ public class MessageListener extends ListenerAdapter {
 
         // Parse args
         if (details.isArgumentCommand()) {
-          if (rawArgs.size() == 0) {
+          ArgumentType[] argumentTypes = details.getArgumentTypes();
+
+          // Don't set this ==, because longtext could make it different. It just has to be at
+          // LEAST that length.
+          if (rawArgs.size() < argumentTypes.length) {
             usageUtil.sendUsage();
             return;
           }

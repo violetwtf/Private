@@ -16,6 +16,7 @@ import wtf.violet.bot.command.ban.BanCommand;
 import wtf.violet.bot.command.help.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
 import wtf.violet.bot.command.ping.PingCommand;
+import wtf.violet.bot.command.prefix.PrefixCommand;
 import wtf.violet.bot.command.rebuild.RebuildCommand;
 import wtf.violet.bot.listener.JoinListener;
 import wtf.violet.bot.listener.MessageListener;
@@ -38,7 +39,7 @@ import java.util.UUID;
 @EnableAdminServer
 public class Bot implements BotService {
 
-  private static final String version = "1.0.0";
+  private static final String version = "1.1.0";
 
   private static Bot instance;
 
@@ -68,6 +69,7 @@ public class Bot implements BotService {
     CommandManager.register(new BanCommand());
     CommandManager.register(new RebuildCommand());
     CommandManager.register(new AboutCommand());
+    CommandManager.register(new PrefixCommand());
 
     jda = new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))

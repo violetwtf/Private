@@ -19,6 +19,7 @@ public class CommandDetails {
   private String usage;
   private String description = "Uh oh! This command has no description.";
   private Permission[] permissions;
+  private Permission[] botPermissions;
 
   public CommandDetails(String... labels) {
     this.labels = labels;
@@ -93,10 +94,21 @@ public class CommandDetails {
   
   public CommandDetails setPermissions(Permission ...permissions) {
     this.permissions = permissions;
+    botPermissions = permissions;
+    return this;
+  }
+
+  public CommandDetails setBotPermissions(Permission ...botPermissions) {
+    this.botPermissions = botPermissions;
     return this;
   }
 
   public Permission[] getPermissions() {
     return permissions;
   }
+
+  public Permission[] getBotPermissions() {
+    return botPermissions;
+  }
+
 }
