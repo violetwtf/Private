@@ -11,6 +11,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import wtf.violet.bot.command.CommandManager;
+import wtf.violet.bot.command.about.AboutCommand;
 import wtf.violet.bot.command.ban.BanCommand;
 import wtf.violet.bot.command.help.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
@@ -36,6 +37,8 @@ import java.util.UUID;
 @Service
 @EnableAdminServer
 public class Bot implements BotService {
+
+  private static final String version = "1.0.0";
 
   private static Bot instance;
 
@@ -64,6 +67,7 @@ public class Bot implements BotService {
     CommandManager.register(new HelpCommand());
     CommandManager.register(new BanCommand());
     CommandManager.register(new RebuildCommand());
+    CommandManager.register(new AboutCommand());
 
     jda = new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))
@@ -125,6 +129,15 @@ public class Bot implements BotService {
 
   public JDA getJda() {
     return jda;
+  }
+
+  public boolean isProduction() {
+    String env = System.getenv("ENVIRONMENT");
+    return (env != null) && (env.equals("production"));
+  }
+
+  public static String getVersion() {
+    return version;
   }
 
   public String getCrab() {

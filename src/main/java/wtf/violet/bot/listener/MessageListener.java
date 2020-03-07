@@ -11,6 +11,7 @@ import wtf.violet.bot.command.ArgumentWrapper;
 import wtf.violet.bot.command.Command;
 import wtf.violet.bot.command.CommandDetails;
 import wtf.violet.bot.model.Admin;
+import wtf.violet.bot.model.GuildWhitelist;
 import wtf.violet.bot.service.admin.AdminService;
 import wtf.violet.bot.util.EmbedUtil;
 import wtf.violet.bot.util.UsageUtil;
@@ -32,15 +33,21 @@ public class MessageListener extends ListenerAdapter {
     Bot instance = Bot.getInstance();
     String content = message.getContentStripped();
     long authorId = author.getIdLong();
+    boolean authorIsAdmin = instance.getAdminService().isAdmin(author);
     AdminService adminService = instance.getAdminService();
 
-    // Admin code
     if (!event.isFromGuild()) {
       if (instance.isAdminCodeClaimable() && content.equals(instance.getAdminCode().toString())) {
+        // Admin code
         Admin admin = new Admin();
         admin.setDiscordId(authorId);
         adminService.save(admin);
         instance.setAdminCodeClaimable(false);
+      } else if (authorIsAdmin && content.startsWith("whitelist")) {
+        // Guild whitelist
+        GuildWhitelist whitelist = new GuildWhitelist();
+        whitelist.setDiscordId(Long.parseLong(content.split(" ")[1]));
+        instance.getGuildWhitelistRepository().save(whitelist);
       }
       return;
     }
@@ -67,7 +74,7 @@ public class MessageListener extends ListenerAdapter {
 
         List<ArgumentWrapper> args = new ArrayList<>();
 
-        if (details.isAdminOnly() && !adminService.isAdmin(author)) {
+        if (details.isAdminOnly() && !authorIsAdmin) {
           return;
         }
 
