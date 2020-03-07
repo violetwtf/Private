@@ -17,7 +17,7 @@ public class GuildSettings {
   private UUID id = UUID.randomUUID();
 
   private long discordId;
-  private String prefix = Bot.getInstance().isProduction() ? "private" : "prot" + " ";
+  private String prefix = (Bot.getInstance().isProduction() ? "private" : "prot") + " ";
 
   public String getPrefix() {
     return prefix;

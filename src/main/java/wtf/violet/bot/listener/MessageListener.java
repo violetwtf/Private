@@ -35,9 +35,10 @@ public class MessageListener extends ListenerAdapter {
     long authorId = author.getIdLong();
     boolean authorIsAdmin = instance.getAdminService().isAdmin(author);
     AdminService adminService = instance.getAdminService();
-    TextChannel channel = event.getTextChannel();
 
     if (!event.isFromGuild()) {
+      MessageChannel channel = event.getChannel();
+
       if (instance.isAdminCodeClaimable() && content.equals(instance.getAdminCode().toString())) {
         // Admin code
         Admin admin = new Admin();
@@ -55,6 +56,8 @@ public class MessageListener extends ListenerAdapter {
       }
       return;
     }
+
+    TextChannel channel = event.getTextChannel();
 
     if (event.isWebhookMessage() || author.isBot()) {
       return;
