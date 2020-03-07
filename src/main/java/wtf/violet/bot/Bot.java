@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import wtf.violet.bot.service.guildsettings.GuildSettingsServiceImpl;
 import wtf.violet.bot.util.GuildWhitelistUtil;
 
 import javax.security.auth.login.LoginException;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
@@ -38,8 +40,6 @@ import java.util.UUID;
 @Service
 @EnableAdminServer
 public class Bot implements BotService {
-
-  private static final String version = "1.1.0";
 
   private static Bot instance;
 
@@ -92,8 +92,18 @@ public class Bot implements BotService {
       System.out.println("Send this code to become admin: " + adminCode);
     }
 
-    for (Guild guild : getInstance().getJda().getGuilds()) {
-      GuildWhitelistUtil.check(guild);
+    for (Guild guild : jda.getGuilds()) {
+      // So moving servers doesn't result in me getting locked out of my bot
+      String officialGuildsRaw = System.getenv("GUILD_WHITELIST_BYPASS");
+      String guildId = guild.getId();
+      if (
+          officialGuildsRaw == null ||
+              !Arrays.asList(officialGuildsRaw.split(",")).contains(guildId))
+      {
+        GuildWhitelistUtil.check(guild);
+      } else {
+        System.out.println("Ignoring bypassed guild: " + guildId);
+      }
     }
   }
 
@@ -138,8 +148,10 @@ public class Bot implements BotService {
     return (env != null) && (env.equals("production"));
   }
 
-  public static String getVersion() {
-    return version;
+  public String getVersion() {
+    // Get gradle version. This is null if it's run from bootRun instead of bootJar.
+    String version = getClass().getPackage().getImplementationVersion();
+    return version == null ? "Development (Run from IDE)" : version;
   }
 
   public String getCrab() {

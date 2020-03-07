@@ -16,17 +16,14 @@ public class AboutCommand extends Command {
 
   @Override
   public void execute(MessageReceivedEvent event) {
+    Bot instance = Bot.getInstance();
+
     event.getChannel()
         .sendMessage(
             EmbedUtil.getBasicEmbed(event)
                 .addField("About", "Discord bot with military-like efficiency", false)
                 .addField("Developer", "[Violet#6096](https://violet.wtf)", true)
-                .addField("Version", Bot.getVersion(), true)
-                .addField(
-                    "Environment",
-                    Bot.getInstance().isProduction() ? "Production" : "Development",
-                    true
-                )
+                .addField("Version", instance.getVersion(), true)
                 .build())
         .queue();
   }

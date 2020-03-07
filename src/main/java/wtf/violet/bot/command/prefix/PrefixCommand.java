@@ -39,7 +39,7 @@ public class PrefixCommand extends Command {
     event.getChannel()
         .sendMessage(
             EmbedUtil.getBasicEmbed(event)
-                .setDescription("Your server's prefix is now `" + prefix + "`!")
+                .setDescription("Your server's prefix is now `" + prefix + "`")
                 .build()
         )
         .queue();

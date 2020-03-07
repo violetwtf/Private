@@ -35,6 +35,7 @@ public class MessageListener extends ListenerAdapter {
     long authorId = author.getIdLong();
     boolean authorIsAdmin = instance.getAdminService().isAdmin(author);
     AdminService adminService = instance.getAdminService();
+    TextChannel channel = event.getTextChannel();
 
     if (!event.isFromGuild()) {
       if (instance.isAdminCodeClaimable() && content.equals(instance.getAdminCode().toString())) {
@@ -43,11 +44,14 @@ public class MessageListener extends ListenerAdapter {
         admin.setDiscordId(authorId);
         adminService.save(admin);
         instance.setAdminCodeClaimable(false);
+        channel.sendMessage("You are now admin.").queue();
       } else if (authorIsAdmin && content.startsWith("whitelist")) {
         // Guild whitelist
         GuildWhitelist whitelist = new GuildWhitelist();
-        whitelist.setDiscordId(Long.parseLong(content.split(" ")[1]));
+        long whitelistId = Long.parseLong(content.split(" ")[1]);
+        whitelist.setDiscordId(whitelistId);
         instance.getGuildWhitelistRepository().save(whitelist);
+        channel.sendMessage("Whitelisted " + whitelistId).queue();
       }
       return;
     }
@@ -57,7 +61,6 @@ public class MessageListener extends ListenerAdapter {
     }
 
     Guild guild = event.getGuild();
-    TextChannel channel = event.getTextChannel();
 
     String prefix =
         instance.getGuildSettingsService().findByDiscordId(guild.getIdLong()).getPrefix();
