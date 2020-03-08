@@ -125,8 +125,6 @@ public class MessageListener extends ListenerAdapter {
             return;
           }
 
-          List<Member> mentionedMembers = message.getMentionedMembers();
-
           for (ArgumentType type : details.getArgumentTypes()) {
             switch (type) {
               case LONG_TEXT:
@@ -135,7 +133,7 @@ public class MessageListener extends ListenerAdapter {
                 break;
               case MEMBER:
                 if (message.getMentionedMembers().size() > 0 && rawArgs.get(0).startsWith("@")) {
-                  args.add(new ArgumentWrapper(mentionedMembers.get(0)));
+                  args.add(new ArgumentWrapper(message.getMentionedMembers().get(0)));
                   rawArgs.remove(0);
                 } else {
                   usageUtil.sendUsage();

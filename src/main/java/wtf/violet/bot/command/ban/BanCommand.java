@@ -2,10 +2,7 @@ package wtf.violet.bot.command.ban;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import wtf.violet.bot.command.ArgumentType;
 import wtf.violet.bot.command.ArgumentWrapper;
@@ -47,34 +44,35 @@ public class BanCommand extends Command {
       return;
     }
 
-    member.getUser().openPrivateChannel()
-        .flatMap(privateChannel -> {
-          privateChannel.sendMessage(
-              buildWithReason(
-                  EmbedUtil.getBasicEmbed(event)
-                  .addField(
-                    "Banned you from",
-                    guild.getName(),
-                    false
-                  ),
-                  reason
-              )
-          ).queue();
-          return member.ban(7, reason);
-        })
-        .flatMap(aVoid ->
-            channel.sendMessage(
-                buildWithReason(
-                    EmbedUtil.getBasicEmbed(event)
-                    .addField(
-                        "Success!",
-                        "Banned **" +
-                            member.getUser().getAsTag() +
-                            "**",
-                        false
-                    ), reason)
-            )
-        ).queue();
+    boolean couldNotPm = false;
+
+    User user = member.getUser();
+
+    try {
+      PrivateChannel privateChannel = user.openPrivateChannel().complete();
+      privateChannel.sendMessage(
+          buildWithReason(
+              EmbedUtil.getBasicEmbed(event).addField("", guild.getName(), false),
+              reason
+          )
+      ).complete();
+    } catch (Exception e) {
+      couldNotPm = true;
+    }
+
+    member.ban(7, reason).complete();
+
+    EmbedBuilder builder = EmbedUtil.getBasicEmbed(event).addField(
+        "Banned", user.getAsTag(), false
+    );
+
+    if (couldNotPm) {
+      builder.addField(
+          "Note", "I could not PM this user notifying them of their ban.", false
+      );
+    }
+
+    channel.sendMessage(buildWithReason(builder, reason)).queue();
   }
 
   /**
