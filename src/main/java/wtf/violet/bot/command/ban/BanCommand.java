@@ -35,7 +35,7 @@ import java.util.List;
  * @author Violet M. vi@violet.wtf
  * @see wtf.violet.bot.command.Command
  */
-public class BanCommand extends Command {
+public final class BanCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {

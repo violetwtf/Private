@@ -25,7 +25,7 @@ import wtf.violet.bot.Bot;
 /**
  * Tools for the guild whitelist.
  */
-public class GuildWhitelistUtil {
+public final class GuildWhitelistUtil {
 
   /**
    * Check if a guild is on the whitelist.

@@ -24,7 +24,7 @@ import wtf.violet.bot.command.Command;
 import wtf.violet.bot.command.CommandDetails;
 import wtf.violet.bot.util.EmbedUtil;
 
-public class AboutCommand extends Command {
+public final class AboutCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {

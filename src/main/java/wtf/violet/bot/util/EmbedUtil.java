@@ -30,7 +30,7 @@ import java.awt.*;
  * A helpful util to build embeds.
  * @author Violet M. vi@violet.wtf
  */
-public class EmbedUtil {
+public final class EmbedUtil {
 
   /**
    * Get the basic command embed.

@@ -18,7 +18,8 @@
 
 package wtf.violet.bot;
 
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
+import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -55,23 +56,19 @@ import java.util.UUID;
  * @author Violet M.
  */
 @Service
-@EnableAdminServer
-public class Bot implements BotService {
+public final class Bot implements BotService {
 
-  private static Bot instance;
+  @Getter private static Bot instance;
+  @Getter private static final String crab = "\uD83E\uDD80";
 
-  @Autowired
-  private GuildSettingsServiceImpl guildSettingsService;
-  @Autowired
-  private AdminServiceImpl adminService;
-  @Autowired
-  private GuildWhitelistRepository guildWhitelistRepository;
+  @Getter private CommandManager commandManager = new CommandManager();
+  @Getter private JDA jda;
+  @Getter private UUID adminCode;
+  @Getter @Setter private boolean adminCodeClaimable = false;
 
-  private UUID adminCode;
-  private boolean adminCodeClaimable = false;
-
-  private CommandManager commandManager = new CommandManager();
-  private JDA jda;
+  @Autowired @Getter private GuildSettingsServiceImpl guildSettingsService;
+  @Autowired @Getter private AdminServiceImpl adminService;
+  @Autowired @Getter private GuildWhitelistRepository guildWhitelistRepository;
 
   /**
    * The Discord bot!
@@ -124,42 +121,6 @@ public class Bot implements BotService {
     }
   }
 
-  public static Bot getInstance() {
-    return instance;
-  }
-
-  public GuildSettingsServiceImpl getGuildSettingsService() {
-    return guildSettingsService;
-  }
-
-  public CommandManager getCommandManager() {
-    return commandManager;
-  }
-
-  public AdminServiceImpl getAdminService() {
-    return adminService;
-  }
-
-  public UUID getAdminCode() {
-    return adminCode;
-  }
-
-  public boolean isAdminCodeClaimable() {
-    return adminCodeClaimable;
-  }
-
-  public void setAdminCodeClaimable(boolean adminCodeClaimable) {
-    this.adminCodeClaimable = adminCodeClaimable;
-  }
-
-  public GuildWhitelistRepository getGuildWhitelistRepository() {
-    return guildWhitelistRepository;
-  }
-
-  public JDA getJda() {
-    return jda;
-  }
-
   public boolean isProduction() {
     String env = System.getenv("ENVIRONMENT");
     return (env != null) && (env.equals("production"));
@@ -169,10 +130,6 @@ public class Bot implements BotService {
     // Get gradle version. This is null if it's run from bootRun instead of bootJar.
     String version = getClass().getPackage().getImplementationVersion();
     return version == null ? "Development (Run from IDE)" : version;
-  }
-
-  public String getCrab() {
-    return "\uD83E\uDD80"; // 🦀🦀🦀🦀Fine, I'll give in.
   }
 
 }

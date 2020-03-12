@@ -34,4 +34,5 @@ public class JoinListener extends ListenerAdapter {
   public void onGuildJoin(@Nonnull GuildJoinEvent event) {
     GuildWhitelistUtil.check(event.getGuild());
   }
+
 }

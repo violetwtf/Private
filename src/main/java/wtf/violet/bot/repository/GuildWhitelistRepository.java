@@ -26,6 +26,5 @@ import java.util.UUID;
 public interface GuildWhitelistRepository extends JpaRepository<GuildWhitelist, UUID> {
 
   GuildWhitelist findByDiscordId(long discordId);
-  void removeByDiscordId(long discordId);
 
 }

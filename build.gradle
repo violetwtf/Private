@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id "io.freefair.lombok" version "5.0.0-rc6"
     id 'java'
 }
 
@@ -22,8 +23,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation 'de.codecentric:spring-boot-admin-starter-client'
-    implementation 'de.codecentric:spring-boot-admin-starter-server'
     runtimeOnly 'org.postgresql:postgresql'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

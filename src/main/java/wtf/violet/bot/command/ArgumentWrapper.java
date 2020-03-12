@@ -18,16 +18,17 @@
 
 package wtf.violet.bot.command;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 
 /**
  * Used to store data from arguments and pass it to commands.
  * @author Violet M. vi@violet.wtf
  */
-public class ArgumentWrapper {
+public final class ArgumentWrapper {
 
-  private String text;
-  private Member member;
+  @Getter private String text;
+  @Getter private Member member;
 
   public ArgumentWrapper(String text) {
     this.text = text;
@@ -37,11 +38,4 @@ public class ArgumentWrapper {
     this.member = member;
   }
 
-  public String getText() {
-    return text;
-  }
-
-  public Member getMember() {
-    return member;
-  }
 }

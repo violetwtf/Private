@@ -34,7 +34,7 @@ import java.util.List;
  * @author Violet M. vi@violet.wtf
  * @see wtf.violet.bot.command.Command
  */
-public class EvalCommand extends Command {
+public final class EvalCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {

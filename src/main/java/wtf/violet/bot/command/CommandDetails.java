@@ -18,6 +18,7 @@
 
 package wtf.violet.bot.command;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -27,16 +28,19 @@ import java.util.List;
  * Details of a command.
  * @author Violet M. vi@violet.wtf
  */
-public class CommandDetails {
+public final class CommandDetails {
 
-  private String[] labels;
+  @Getter private String[] labels;
   private ArgumentType[] argumentTypes;
-  private boolean adminOnly = false;
+  @Getter private boolean adminOnly = false;
   private boolean argumentCommand = false;
   private boolean sendLabel = false;
   private String usage;
   private String description = "Uh oh! This command has no description.";
-  private Permission[] permissions;
+
+  @Getter private Permission[] permissions;
+
+  @Getter
   private Permission[] botPermissions;
 
   public CommandDetails(String... labels) {
@@ -119,14 +123,6 @@ public class CommandDetails {
   public CommandDetails setBotPermissions(Permission ...botPermissions) {
     this.botPermissions = botPermissions;
     return this;
-  }
-
-  public Permission[] getPermissions() {
-    return permissions;
-  }
-
-  public Permission[] getBotPermissions() {
-    return botPermissions;
   }
 
 }

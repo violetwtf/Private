@@ -32,7 +32,7 @@ import java.util.Collection;
  * @author Violet M. vi@violet.wtf
  * @see wtf.violet.bot.command.Command
  */
-public class HelpCommand extends Command {
+public final class HelpCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {

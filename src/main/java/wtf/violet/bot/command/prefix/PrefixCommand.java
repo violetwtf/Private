@@ -31,7 +31,7 @@ import wtf.violet.bot.util.EmbedUtil;
 
 import java.util.List;
 
-public class PrefixCommand extends Command {
+public final class PrefixCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {

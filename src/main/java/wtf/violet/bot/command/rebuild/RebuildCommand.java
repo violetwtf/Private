@@ -33,7 +33,7 @@ import wtf.violet.bot.util.EmbedUtil;
  * Rebuild a channel from scratch (clear all messages).
  * @author Violet M. vi@violet.wtf
  */
-public class RebuildCommand extends Command {
+public final class RebuildCommand extends Command {
 
   @Override
   public CommandDetails getDetails() {

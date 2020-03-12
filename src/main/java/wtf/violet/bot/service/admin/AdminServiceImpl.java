@@ -18,6 +18,7 @@
 
 package wtf.violet.bot.service.admin;
 
+import lombok.Getter;
 import net.dv8tion.jda.api.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,12 +33,11 @@ import java.util.List;
  * @author Violet M. vi@violet.wtf
  */
 @Service
-public class AdminServiceImpl implements AdminService {
+public final class AdminServiceImpl implements AdminService {
 
-  private List<Long> cache = new ArrayList<>();
+  @Getter private List<Long> cache = new ArrayList<>();
 
-  @Autowired
-  private AdminRepository repository;
+  @Autowired @Getter private AdminRepository repository;
 
   /**
    * Returns true if the provided User is admin.

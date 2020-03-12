@@ -26,7 +26,7 @@ import wtf.violet.bot.util.EmbedUtil;
  * Embed for the ping command.
  * @author Violet M. vi@violet.wtf
  */
-class PingEmbed {
+final class PingEmbed {
   private String discord = "Pinging...";
   private String postgres = "Pinging...";
   private MessageReceivedEvent event;

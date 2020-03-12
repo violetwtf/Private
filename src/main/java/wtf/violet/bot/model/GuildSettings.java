@@ -18,6 +18,8 @@
 
 package wtf.violet.bot.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import wtf.violet.bot.Bot;
 
 import javax.persistence.Entity;
@@ -29,28 +31,13 @@ import java.util.UUID;
  * @author Violet M. vi@violet.wtf
  */
 @Entity
-public class GuildSettings {
+public final class GuildSettings {
 
-  @Id
-  private UUID id = UUID.randomUUID();
+  @Id private final UUID id = UUID.randomUUID();
+  @Getter @Setter private long discordId;
 
-  private long discordId;
+  @Getter
+  @Setter
   private String prefix = (Bot.getInstance().isProduction() ? "private" : "prot") + " ";
-
-  public String getPrefix() {
-    return prefix;
-  }
-
-  public void setPrefix(String prefix) {
-    this.prefix = prefix;
-  }
-
-  public long getDiscordId() {
-    return discordId;
-  }
-
-  public void setDiscordId(long discordId) {
-    this.discordId = discordId;
-  }
 
 }

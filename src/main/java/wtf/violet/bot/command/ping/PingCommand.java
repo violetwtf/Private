@@ -31,7 +31,7 @@ import java.util.Date;
  * @author Violet M. vi@violet.wtf
  * @see wtf.violet.bot.command.Command
  */
-public class PingCommand extends Command {
+public final class PingCommand extends Command {
 
   @Override
   public void execute(MessageReceivedEvent event) {
