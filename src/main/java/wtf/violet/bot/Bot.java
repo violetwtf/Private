@@ -34,6 +34,7 @@ import wtf.violet.bot.command.about.AboutCommand;
 import wtf.violet.bot.command.ban.BanCommand;
 import wtf.violet.bot.command.help.HelpCommand;
 import wtf.violet.bot.command.eval.EvalCommand;
+import wtf.violet.bot.command.overridetest.OverrideTestCommand;
 import wtf.violet.bot.command.ping.PingCommand;
 import wtf.violet.bot.command.prefix.PrefixCommand;
 import wtf.violet.bot.command.rebuild.RebuildCommand;
@@ -43,9 +44,11 @@ import wtf.violet.bot.model.Admin;
 import wtf.violet.bot.repository.GuildWhitelistRepository;
 import wtf.violet.bot.service.admin.AdminServiceImpl;
 import wtf.violet.bot.service.guildsettings.GuildSettingsServiceImpl;
+import wtf.violet.bot.service.override.OverrideService;
 import wtf.violet.bot.util.GuildWhitelistUtil;
 
 import javax.security.auth.login.LoginException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -69,21 +72,31 @@ public final class Bot implements BotService {
   @Autowired @Getter private GuildSettingsServiceImpl guildSettingsService;
   @Autowired @Getter private AdminServiceImpl adminService;
   @Autowired @Getter private GuildWhitelistRepository guildWhitelistRepository;
+  @Autowired @Getter private OverrideService overrideService;
 
   /**
    * The Discord bot!
    * @throws LoginException Discord couldn't login
    */
-  public Bot() throws LoginException {
+  public Bot() throws
+      LoginException,
+      InvocationTargetException,
+      NoSuchMethodException,
+      InstantiationException,
+      IllegalAccessException
+  {
     instance = this;
 
-    CommandManager.register(new PingCommand());
-    CommandManager.register(new EvalCommand());
-    CommandManager.register(new HelpCommand());
-    CommandManager.register(new BanCommand());
-    CommandManager.register(new RebuildCommand());
-    CommandManager.register(new AboutCommand());
-    CommandManager.register(new PrefixCommand());
+    CommandManager.register(
+        AboutCommand.class,
+        BanCommand.class,
+        EvalCommand.class,
+        HelpCommand.class,
+        PingCommand.class,
+        PrefixCommand.class,
+        RebuildCommand.class,
+        OverrideTestCommand.class
+    );
 
     jda = new JDABuilder()
         .setToken(System.getenv("DISCORD_TOKEN"))

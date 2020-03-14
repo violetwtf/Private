@@ -50,9 +50,13 @@ public final class EvalCommand extends Command {
     String imports = getImportString(new String[]{
         "wtf.violet.bot.Bot",
         "wtf.violet.bot.repository.*",
+        "wtf.violet.bot.repository.override.*",
         "wtf.violet.bot.service.guildsettings.*",
         "wtf.violet.bot.service.admin.*",
-        "wtf.violet.bot.model.*"
+        "wtf.violet.bot.service.override.*",
+        "wtf.violet.bot.model.*",
+        "wtf.violet.bot.model.override.*",
+        "wtf.violet.bot.util.*"
     });
 
     String text, name = "Result";

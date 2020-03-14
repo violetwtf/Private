@@ -16,30 +16,31 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wtf.violet.bot.util;
+package wtf.violet.bot.command.overridetest;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import wtf.violet.bot.Bot;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import wtf.violet.bot.command.Command;
+import wtf.violet.bot.command.CommandDetails;
+import wtf.violet.bot.model.override.PrivateOverride;
+import wtf.violet.bot.util.EmbedUtil;
 
-/**
- * Tools for the guild whitelist.
- */
-public final class GuildWhitelistUtil {
+public class OverrideTestCommand extends Command {
 
-  /**
-   * Check if a guild is on the whitelist.
-   * @param guild Guild to check
-   */
-  public static void check(Guild guild) {
-    if (
-        Bot.getInstance()
-            .getGuildWhitelistRepository()
-            .findByDiscordId(guild.getIdLong())
-            == null
-    ) {
-      guild.leave().queue();
-    }
+  @Override
+  public CommandDetails getDetails() {
+    return new CommandDetails("overridetest")
+        .setDescription("Testing command for overrides")
+        .setOverride(PrivateOverride.TEST);
   }
 
+  @Override
+  public void execute(MessageReceivedEvent event) {
+    event.getChannel()
+        .sendMessage(
+            EmbedUtil.getBasicEmbed(event)
+                .addField("Override Test", "Success!", false)
+                .build()
+        )
+        .queue();
+  }
 }

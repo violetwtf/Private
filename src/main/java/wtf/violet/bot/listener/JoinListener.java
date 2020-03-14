@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
  * Listens for GuildJoinEvent to enforce whitelist.
  * @author Violet M. vi@violet.wtf
  */
-public class JoinListener extends ListenerAdapter {
+public final class JoinListener extends ListenerAdapter {
 
   @Override
   public void onGuildJoin(@Nonnull GuildJoinEvent event) {

@@ -16,30 +16,20 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wtf.violet.bot.util;
+package wtf.violet.bot.model.override;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import wtf.violet.bot.Bot;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * Tools for the guild whitelist.
- */
-public final class GuildWhitelistUtil {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.UUID;
 
-  /**
-   * Check if a guild is on the whitelist.
-   * @param guild Guild to check
-   */
-  public static void check(Guild guild) {
-    if (
-        Bot.getInstance()
-            .getGuildWhitelistRepository()
-            .findByDiscordId(guild.getIdLong())
-            == null
-    ) {
-      guild.leave().queue();
-    }
-  }
+@Entity
+public class UserOverride extends DiscordIdOverride {
+
+  @Id private UUID id = UUID.randomUUID();
+  @Getter @Setter private long discordId;
+  @Getter @Setter private PrivateOverride override;
 
 }

@@ -89,16 +89,4 @@ public final class AdminServiceImpl implements AdminService {
     repository.save(admin);
   }
 
-  /**
-   * Returns the underlying AdminRepository.
-   * @see wtf.violet.bot.repository.AdminRepository
-   */
-  public AdminRepository getRepository() {
-    return repository;
-  }
-
-  /** Returns the underlying cache. You probably shouldn't touch this. */
-  public List<Long> getCache() {
-    return cache;
-  }
 }

@@ -16,30 +16,18 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package wtf.violet.bot.util;
+package wtf.violet.bot.repository.override;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
-import wtf.violet.bot.Bot;
+import org.springframework.data.jpa.repository.JpaRepository;
+import wtf.violet.bot.model.override.GuildOverride;
+import wtf.violet.bot.model.override.PrivateOverride;
 
-/**
- * Tools for the guild whitelist.
- */
-public final class GuildWhitelistUtil {
+import java.util.UUID;
 
-  /**
-   * Check if a guild is on the whitelist.
-   * @param guild Guild to check
-   */
-  public static void check(Guild guild) {
-    if (
-        Bot.getInstance()
-            .getGuildWhitelistRepository()
-            .findByDiscordId(guild.getIdLong())
-            == null
-    ) {
-      guild.leave().queue();
-    }
-  }
+public interface GuildOverrideRepository extends JpaRepository<GuildOverride, UUID> {
+
+  GuildOverride findByDiscordIdAndOverride(long discordId, PrivateOverride override);
+  void deleteByDiscordId(long discordId);
+  void deleteAllByOverride(PrivateOverride override);
 
 }
